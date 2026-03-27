@@ -2,13 +2,13 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Navigate, Outlet, Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Users, LogOut, PlusCircle, Settings } from "lucide-react";
-
+import SplashScreen from "./SplashScreen";
 
 const AppLayout = () => {
   const { user, logout, isLoading } = useAuth();
   const location = useLocation();
 
-  if (isLoading) return null;
+  if (isLoading) return <SplashScreen />;
   if (!user) return <Navigate to="/" replace />;
 
   const navItems = [

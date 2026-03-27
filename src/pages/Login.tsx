@@ -22,7 +22,7 @@ const Login = () => {
     const result = await login(nome, senha);
     setLoading(false);
     if (result.success) {
-      navigate("/dashboard");
+      navigate("/cadastro");
     } else {
       setError(result.message || "Erro ao fazer login");
     }
