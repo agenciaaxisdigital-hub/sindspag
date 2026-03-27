@@ -131,9 +131,11 @@ const AssociadoForm = () => {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      <Button variant="ghost" onClick={() => navigate("/dashboard")} className="gap-2">
-        <ArrowLeft className="h-4 w-4" /> Voltar
-      </Button>
+      {id && (
+        <Button variant="ghost" onClick={() => navigate("/associados")} className="gap-2">
+          <ArrowLeft className="h-4 w-4" /> Voltar
+        </Button>
+      )}
 
       <h1 className="text-2xl font-bold text-foreground">
         {isNew ? "Novo Associado" : "Editar Associado"}
