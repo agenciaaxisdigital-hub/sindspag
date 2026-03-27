@@ -36,12 +36,10 @@ const Login = () => {
       <div className="absolute top-1/4 right-10 w-40 h-40 bg-white/5 rounded-full" />
 
       <div className="w-full max-w-md relative z-10">
-        {/* Logo area */}
-        <div className="flex flex-col items-center mb-8">
-          <div className="bg-white rounded-2xl px-8 py-5 shadow-2xl mb-5">
-            <span className="text-4xl font-extrabold text-primary tracking-tight">SINDSPAG</span>
-          </div>
-          <p className="text-white/70 text-sm mt-1">
+        {/* Title */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-extrabold text-white tracking-tight">SINDSPAG</h1>
+          <p className="text-white/70 text-sm mt-2">
             Sistema de Gestão de Associados
           </p>
         </div>
