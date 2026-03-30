@@ -317,7 +317,7 @@ const AssociadoForm = () => {
           </div>
         </SectionCard>
 
-        <div className="flex gap-3 justify-end pb-4">
+        <div className="flex gap-3 justify-end pb-12">
           <Button type="button" variant="outline" onClick={() => navigate("/associados")} className="rounded-xl h-11 px-6">
             Cancelar
           </Button>
