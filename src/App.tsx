@@ -9,12 +9,24 @@ import AssociadoForm from "./pages/AssociadoForm";
 import Usuarios from "./pages/Usuarios";
 import AppLayout from "./components/AppLayout";
 import NotFound from "./pages/NotFound";
+import VersionMonitor from "./components/VersionMonitor";
+import InstallPWA from "./components/InstallPWA";
+import { useOfflineSync } from "./hooks/useOfflineSync";
 
 const queryClient = new QueryClient();
+
+// Injetor de Fila Offline global
+function GlobalOfflineSync() {
+  useOfflineSync();
+  return null;
+}
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
+      <GlobalOfflineSync />
+      <InstallPWA />
+      <VersionMonitor />
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
