@@ -2,24 +2,51 @@
 <html lang="pt-BR" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <!-- Viewport: cobre toda a tela incluindo notch/dynamic island -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+
     <title>SINDSPAG - Sistema de Gestão</title>
     <meta name="description" content="Sistema de Gestão de Associados do SINDSPAG" />
 
-    <!-- PWA -->
-    <link rel="manifest" href="/manifest.json" />
+    <!-- ── PWA core ── -->
     <meta name="theme-color" content="#111520" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <!-- ── iOS / Safari PWA ── -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="SINDSPAG" />
-    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192.png" />
+    <link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512.png" />
 
+    <!-- ── Ícone geral ── -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/icons/icon-512.png" />
+
+    <!-- ── Comportamento nativo ── -->
+    <!-- Impede detecção automática de telefone/e-mail como link -->
+    <meta name="format-detection" content="telephone=no, email=no, address=no" />
+    <!-- Desativa callout nativo ao pressionar e segurar no iOS -->
+    <meta name="touch-callout" content="none" />
+
+    <!-- ── Open Graph ── -->
     <meta property="og:title" content="SINDSPAG" />
     <meta property="og:description" content="Sistema de Gestão de Associados" />
     <meta property="og:type" content="website" />
+    <meta property="og:image" content="/icons/icon-512.png" />
+
+    <style>
+      /* Elimina flash branco no carregamento */
+      html, body { background: #111520; margin: 0; padding: 0; }
+      /* Previne scroll bounce global no iOS */
+      body { overscroll-behavior: none; -webkit-overflow-scrolling: auto; }
+      /* Desativa seleção de texto em toda a UI (comportamento nativo) */
+      * { -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; }
+    </style>
   </head>
 
-  <body>
+  <body style="background:#111520;margin:0">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

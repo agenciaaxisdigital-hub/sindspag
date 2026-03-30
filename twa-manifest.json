@@ -1,0 +1,16 @@
+﻿{
+  "packageId": "br.com.sarelli.sindspag",
+  "host": "sindspag.deputadasarelli.com.br",
+  "name": "SINDSPAG",
+  "launcherName": "Sindspag",
+  "themeColor": "#DC2626",
+  "navigationColor": "#ffffff",
+  "backgroundColor": "#ffffff",
+  "enableNotifications": true,
+  "startUrl": "/",
+  "iconUrl": "https://sindspag.deputadasarelli.com.br/icon-512.png",
+  "maskableIconUrl": "https://sindspag.deputadasarelli.com.br/icon-512.png",
+  "appVersionName": "1.0.0",
+  "appVersionCode": 1,
+  "fallbackType": "customtabs"
+}

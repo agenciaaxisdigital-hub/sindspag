@@ -1,4 +1,4 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -13,7 +13,32 @@ import VersionMonitor from "./components/VersionMonitor";
 import InstallPWA from "./components/InstallPWA";
 import { useOfflineSync } from "./hooks/useOfflineSync";
 
-const queryClient = new QueryClient();
+import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      networkMode: "offlineFirst",
+      staleTime: 1000 * 60 * 5,
+      gcTime: 1000 * 60 * 60 * 24,
+      retry: (failureCount, error: unknown) => {
+        const msg = (error as Error)?.message || "";
+        if (msg.includes("JWT") || msg.includes("401")) return false;
+        return failureCount < 2;
+      },
+    },
+    mutations: {
+      networkMode: "offlineFirst",
+    },
+  },
+});
+
+const persister = createSyncStoragePersister({
+  storage: window.localStorage,
+  key: "sindspag_rq_cache_v1",
+  throttleTime: 1000,
+});
 
 // Injetor de Fila Offline global
 function GlobalOfflineSync() {
@@ -22,7 +47,16 @@ function GlobalOfflineSync() {
 }
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
+  <PersistQueryClientProvider
+    client={queryClient}
+    persistOptions={{
+      persister,
+      maxAge: 1000 * 60 * 60 * 24,
+      dehydrateOptions: {
+        shouldDehydrateQuery: (query) => query.state.status === "success",
+      },
+    }}
+  >
     <TooltipProvider>
       <GlobalOfflineSync />
       <InstallPWA />
@@ -44,7 +78,7 @@ const App = () => (
         </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
-  </QueryClientProvider>
+  </PersistQueryClientProvider>
 );
 
 export default App;
