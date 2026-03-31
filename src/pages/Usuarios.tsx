@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { Navigate } from "react-router-dom";
@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { UserPlus, Shield, Crown, Trash2 } from "lucide-react";
 
 const Usuarios = () => {
+  const queryClient = useQueryClient();
   const { user } = useAuth();
   const [nome, setNome] = useState("");
   const [senha, setSenha] = useState("");
@@ -43,7 +44,7 @@ const Usuarios = () => {
       toast.error("Erro ao excluir usuário: " + error.message);
     } else {
       toast.success(`Usuário "${nome}" excluído com sucesso!`);
-      refetch();
+      queryClient.invalidateQueries({ queryKey: ["sindspag_usuarios"] });
     }
   };
 

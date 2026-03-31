@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -13,11 +13,27 @@ const Login = () => {
   const [senha, setSenha] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+
+  useEffect(() => {
+    const savedNome = localStorage.getItem("sindspag_remembered_user");
+    if (savedNome) {
+      setNome(savedNome);
+      setRememberMe(true);
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setLoading(true);
+
+    if (rememberMe) {
+      localStorage.setItem("sindspag_remembered_user", nome);
+    } else {
+      localStorage.removeItem("sindspag_remembered_user");
+    }
+
     const result = await login(nome, senha);
     setLoading(false);
     if (result.success) {
@@ -116,6 +132,22 @@ const Login = () => {
                     className="pl-10 h-12 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/20 focus:border-primary/50 focus:ring-2 focus:ring-primary/10 focus:bg-white/8 transition-all"
                   />
                 </div>
+              </div>
+
+              <div className="flex items-center space-x-2 py-1">
+                <input
+                  type="checkbox"
+                  id="remember"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="w-4 h-4 rounded border-white/10 bg-white/5 text-primary accent-primary cursor-pointer"
+                />
+                <label
+                  htmlFor="remember"
+                  className="text-xs font-medium text-white/40 cursor-pointer hover:text-white/60 transition-colors"
+                >
+                  Salvar credenciais
+                </label>
               </div>
 
               {error && (
