@@ -17,8 +17,10 @@ const Login = () => {
 
   useEffect(() => {
     const savedNome = localStorage.getItem("sindspag_remembered_user");
+    const savedSenha = localStorage.getItem("sindspag_remembered_pass");
     if (savedNome) {
       setNome(savedNome);
+      if (savedSenha) setSenha(savedSenha);
       setRememberMe(true);
     }
   }, []);
@@ -30,8 +32,10 @@ const Login = () => {
 
     if (rememberMe) {
       localStorage.setItem("sindspag_remembered_user", nome);
+      localStorage.setItem("sindspag_remembered_pass", senha);
     } else {
       localStorage.removeItem("sindspag_remembered_user");
+      localStorage.removeItem("sindspag_remembered_pass");
     }
 
     const result = await login(nome, senha);
