@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { toast } from "sonner";
-import { UserPlus, Shield, Crown } from "lucide-react";
+import { UserPlus, Shield, Crown, Trash2 } from "lucide-react";
 
 const Usuarios = () => {
   const { user } = useAuth();
@@ -29,7 +29,23 @@ const Usuarios = () => {
     },
   });
 
-  if (user?.cargo !== "admin") return <Navigate to="/dashboard" replace />;
+  const handleDelete = async (id: string, nome: string) => {
+    if (!confirm(`Deseja realmente excluir o usuário "${nome}"?`)) return;
+    
+    setLoading(true);
+    const { error } = await supabase
+      .from("sindspag_usuarios")
+      .delete()
+      .eq("id", id);
+    setLoading(false);
+    
+    if (error) {
+      toast.error("Erro ao excluir usuário: " + error.message);
+    } else {
+      toast.success(`Usuário "${nome}" excluído com sucesso!`);
+      refetch();
+    }
+  };
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,6 +69,8 @@ const Usuarios = () => {
       refetch();
     }
   };
+
+  if (user?.cargo !== "admin") return <Navigate to="/dashboard" replace />;
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
@@ -137,6 +155,7 @@ const Usuarios = () => {
               <TableRow className="bg-muted/40 hover:bg-muted/40 border-b border-border/40">
                 <TableHead className="font-bold text-foreground/80 text-xs uppercase tracking-wider">Nome</TableHead>
                 <TableHead className="font-bold text-foreground/80 text-xs uppercase tracking-wider">Cargo</TableHead>
+                <TableHead className="w-20 font-bold text-foreground/80 text-xs uppercase tracking-wider text-right">Ação</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -157,6 +176,16 @@ const Usuarios = () => {
                       <span className="w-1.5 h-1.5 rounded-full bg-current" />
                       {u.cargo}
                     </span>
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => handleDelete(u.id, u.nome)}
+                      className="h-8 w-8 rounded-lg hover:bg-destructive/10 hover:text-destructive border border-transparent hover:border-destructive/20 transition-all"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
